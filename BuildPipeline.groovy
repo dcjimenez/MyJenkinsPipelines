@@ -6,7 +6,7 @@
  }
 }*/
 
-node("bookinginterface-compiler") {
+node("${node}") {
  stage("Clone") {
 	 git url: "${gitRepo}", branch: "${branch}", credentialsId: "bitBucketAut"
  }
@@ -15,7 +15,7 @@ node("bookinginterface-compiler") {
 	 archiveArtifacts artifacts: '*.exe'
  }
  stage("Upload to Nexus") {
-	 bat "\"${tool 'Maven 3'}\"/bin/mvn deploy:deploy-file -DgroupId=com.autoclickrentacar -DartifactId=isCarRental_BookingInterface -Dversion=1.0.0 -Dpackaging=exe -Dfile=isCarRental.BookingInterface.exe -DrepositoryId=maven-releases -Durl=http://10.1.75.200:8081/repository/maven-releases"
+	 bat "\"${tool 'Maven 3'}\"/bin/mvn deploy:deploy-file -DgroupId=${groupId} -DartifactId=${artifactId} -Dversion=${version} -Dpackaging=${packaging} -Dfile=${file} -DrepositoryId=maven-releases -Durl=http://10.1.75.200:8081/repository/maven-releases"
  }
 }
 
